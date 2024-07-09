@@ -4,7 +4,7 @@ import clothingSuggestions from './data';
 
 const getWeather = async (location) => {
   const apiKey = '858cb622a8b44820a71100659240907';
-  const response = await axios.get(`http://api.weatherapi.com/v1/current.json?key=${apiKey}&q=${location}`);
+  const response = await axios.get(`https://api.weatherapi.com/v1/current.json?key=${apiKey}&q=${location}`);
   return response.data;
 };
 
