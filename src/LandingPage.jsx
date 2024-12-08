@@ -1,61 +1,177 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { motion, AnimatePresence } from 'framer-motion';
 
 const LandingPage = () => {
+  const [isHovered, setIsHovered] = useState(false);
+
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        duration: 1,
+        staggerChildren: 0.4
+      }
+    }
+  };
+
+  const itemVariants = {
+    hidden: { y: 30, opacity: 0 },
+    visible: {
+      y: 0,
+      opacity: 1,
+      transition: {
+        type: "spring",
+        stiffness: 100,
+        damping: 12
+      }
+    }
+  };
+
+  const floatingVariants = {
+    hover: {
+      y: -10,
+      transition: {
+        duration: 0.3,
+        yoyo: Infinity
+      }
+    }
+  };
+
   return (
-    <div className="bg-gray-100 h-[90vh]">
-      {/* Navbar */}
-      <nav className="bg-white shadow-lg">
-        <div className="max-w-7xl mx-auto px-4">
-          <div className="flex justify-between items-center py-4">
-            <div className="flex items-center">
-              <h1 className="text-2xl font-bold text-gray-800">WeatherWear</h1>
-            </div>
-            <div className="flex items-center space-x-6">
-              <a href="#" className="text-gray-600 hover:text-gray-900">Home</a>
-              <a href="#" className="text-gray-600 hover:text-gray-900">Shop</a>
-              <a href="#" className="text-gray-600 hover:text-gray-900">About</a>
-              <a href="#" className="text-gray-600 hover:text-gray-900">Contact</a>
-            </div>
-          </div>
-        </div>
-      </nav>
+    <motion.div 
+      initial="hidden"
+      animate="visible"
+      variants={containerVariants}
+      className="min-h-screen bg-gradient-to-br from-indigo-900 via-purple-900 to-pink-900"
+    >
+      <div className="min-h-screen backdrop-blur-sm bg-black/20 flex items-center justify-center px-4">
+        <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+          
+          <motion.div 
+            variants={itemVariants}
+            className="text-center lg:text-left space-y-10"
+          >
+            <motion.div
+              whileHover={{ scale: 1.02 }}
+              className="inline-block"
+            >
+              <motion.h1 
+                className="text-6xl md:text-7xl font-bold bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent"
+                animate={{ backgroundPosition: ["0%", "100%"] }}
+                transition={{ duration: 8, repeat: Infinity, repeatType: "reverse" }}
+              >
+                WeatherWear
+              </motion.h1>
+            </motion.div>
+            
+            <motion.p 
+              className="text-2xl text-gray-300 leading-relaxed"
+              variants={itemVariants}
+            >
+              Your personal AI-powered fashion assistant that adapts to the weather. Get curated outfit recommendations based on real-time weather data and your style preferences.
+            </motion.p>
 
-      {/* Hero Section */}
-      <section className="bg-gradient-to-r from-blue-500 to-purple-600 py-24 text-white">
-        <div className="max-w-7xl mx-auto px-4">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-            <div className="text-center md:text-left">
-              <h2 className="text-4xl font-bold mb-4">Outfit Suggestions</h2>
-              <p className="text-lg mb-6">
-                Get personalized outfit recommendations based on current weather conditions.
-              </p>
-              <Link to={"/suggest"} className="bg-white text-blue-500 py-2 px-6 rounded-full hover:bg-blue-100">
-                Get Suggestions
-              </Link>
-            </div>
-            <div className="text-center">
-              <img src="https://cdn.dribbble.com/userupload/11360536/file/original-38641a95a72ace3bc86d1e7138ab056e.png?resize=1200x900" alt="Fashion Model" className="mx-auto rounded-lg shadow-lg" />
-            </div>
-          </div>
-        </div>
-      </section>
+            <motion.div
+              className="space-y-6"
+              variants={itemVariants}
+            >
+              <div className="flex flex-wrap gap-4 justify-center lg:justify-start">
+                <Link to="/suggest">
+                  <motion.button
+                    whileHover={{ scale: 1.05, boxShadow: "0 0 25px rgba(147, 51, 234, 0.5)" }}
+                    whileTap={{ scale: 0.95 }}
+                    className="px-10 py-4 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 rounded-full text-white font-semibold text-lg shadow-lg hover:shadow-xl transition-all duration-300"
+                  >
+                    Get Started Now
+                  </motion.button>
+                </Link>
+                
+                <motion.button
+                  whileHover={{ scale: 1.05, backgroundColor: "rgba(147, 51, 234, 0.2)" }}
+                  whileTap={{ scale: 0.95 }}
+                  className="px-10 py-4 border-2 border-purple-500 rounded-full text-purple-400 font-semibold text-lg hover:border-pink-500 transition-all duration-300"
+                >
+                  Watch Demo
+                </motion.button>
+              </div>
 
-      {/* Image Grid Section */}
-  
+              <motion.div 
+                className="flex items-center justify-center lg:justify-start gap-8 pt-6"
+                variants={itemVariants}
+              >
+                <div className="text-gray-300">
+                  <div className="text-2xl font-bold">50K+</div>
+                  <div className="text-sm">Active Users</div>
+                </div>
+                <div className="text-gray-300">
+                  <div className="text-2xl font-bold">95%</div>
+                  <div className="text-sm">Satisfaction</div>
+                </div>
+                <div className="text-gray-300">
+                  <div className="text-2xl font-bold">24/7</div>
+                  <div className="text-sm">Support</div>
+                </div>
+              </motion.div>
+            </motion.div>
+          </motion.div>
 
-      {/* Footer Section */}
-      <footer className="bg-gray-800 py-8 text-white ">
-        <div className="max-w-7xl mx-auto px-4 flex items-center justify-between">
-          <p>&copy; 2024 WeatherWear. All rights reserved.</p>
-          <ul className="flex space-x-6">
-            <li><a href="#" className="hover:text-gray-300">Privacy Policy</a></li>
-            <li><a href="#" className="hover:text-gray-300">Terms of Service</a></li>
-            <li><a href="#" className="hover:text-gray-300">Contact Us</a></li>
-          </ul>
+          <motion.div
+            variants={itemVariants}
+            className="relative"
+            onHoverStart={() => setIsHovered(true)}
+            onHoverEnd={() => setIsHovered(false)}
+          >
+            <motion.div
+              animate={{ 
+                rotate: [0, 3, -3, 0],
+                y: [0, -8, 8, 0]
+              }}
+              transition={{
+                duration: 8,
+                repeat: Infinity,
+                ease: "easeInOut"
+              }}
+              className="relative z-10"
+            >
+              <img 
+                src="https://cdn.dribbble.com/userupload/11360536/file/original-38641a95a72ace3bc86d1e7138ab056e.png?resize=1200x900" 
+                alt="Fashion Model" 
+                className="rounded-3xl shadow-2xl max-w-md mx-auto hover:shadow-purple-500/50 transition-shadow duration-300"
+              />
+              
+              <AnimatePresence>
+                {isHovered && (
+                  <motion.div
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.8 }}
+                    className="absolute top-4 right-4 bg-white/10 backdrop-blur-md rounded-xl p-4 shadow-xl"
+                  >
+                    <p className="text-white text-sm">AI-Powered Style Recommendations</p>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </motion.div>
+            
+            <motion.div
+              animate={{
+                scale: [1, 1.2, 1],
+                opacity: [0.3, 0.6, 0.3]
+              }}
+              transition={{
+                duration: 5,
+                repeat: Infinity,
+                ease: "easeInOut"
+              }}
+              className="absolute inset-0 bg-gradient-to-r from-blue-500/30 via-purple-500/30 to-pink-500/30 blur-3xl -z-10"
+            />
+          </motion.div>
+          
         </div>
-      </footer>
-    </div>
+      </div>
+    </motion.div>
   );
 };
 
